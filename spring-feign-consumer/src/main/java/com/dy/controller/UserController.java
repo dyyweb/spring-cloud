@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.dy.service.UserService;
 import com.dy.domain.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,11 @@ import javax.annotation.Resource;
 @RequestMapping("user")
 @Slf4j
 public class UserController {
+    @Value("${spring.cloud.name}")
+    String name;
+    @Value("${spring.cloud.version}")
+    String version;
+
     @Resource
     UserService userService;
 
