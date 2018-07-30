@@ -34,6 +34,7 @@ public class ProviderController implements UserApi {
 
 
     public User get(String name, Integer age) {
+        int i = 2/0;
         return User.builder().name(name).age(age).date(new Date()).build();
     }
 

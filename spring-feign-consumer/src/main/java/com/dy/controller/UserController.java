@@ -45,19 +45,34 @@ public class UserController {
         return userService.userInfo(user);
     }
 
-    @RequestMapping("get")
-    @HystrixCommand(fallbackMethod="getFallback")    // 如果当前调用的get()方法出现了错误，则执行fallback
-    User get(String name,Integer age) {
-        return userService.get(name,age);
-    }
-
     @RequestMapping("get/{id}")
     User rest(@PathVariable("id") String id) {
         return userService.rest(id);
     }
 
-    public User getFallback() {
-        User vo = new User("【ERROR】Microcloud-Dept-Hystrix",0,new Date()) ;
+    /**
+     * 服务降级
+     * @param name
+     * @param age
+     * @return
+     */
+    @RequestMapping("get")
+    @HystrixCommand(fallbackMethod="getFallback") // 如果当前调用的get()方法出现了错误，则执行fallback
+    User get(String name,Integer age) {
+        return userService.get(name,age);
+    }
+
+    /**
+     * 服务降级处理保持get()参数一致
+     *
+     * 还有一种方式，就是接口中指定回调的类和方法(个人感觉降级是由客户端处理的，不应该侵入服务端代码)
+     * 当然还有更高级和深入用法，请参考官网
+     * @param name
+     * @param age
+     * @return
+     */
+    public User getFallback(String name,Integer age) {
+        User vo = new User("后台服务挂了,我已经将其降级处理[Hystrix]",0,new Date()) ;
         return vo ;
     }
 
