@@ -3,6 +3,7 @@ package com.dy.controller;
 import com.alibaba.fastjson.JSON;
 import com.dy.service.UserService;
 import com.dy.domain.User;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * com.dy.controller
@@ -44,6 +46,7 @@ public class UserController {
     }
 
     @RequestMapping("get")
+    @HystrixCommand(fallbackMethod="getFallback")    // 如果当前调用的get()方法出现了错误，则执行fallback
     User get(String name,Integer age) {
         return userService.get(name,age);
     }
@@ -51,6 +54,11 @@ public class UserController {
     @RequestMapping("get/{id}")
     User rest(@PathVariable("id") String id) {
         return userService.rest(id);
+    }
+
+    public User getFallback(@PathVariable("id") long id) {
+        User vo = new User("【ERROR】Microcloud-Dept-Hystrix",0,new Date()) ;
+        return vo ;
     }
 
 }
