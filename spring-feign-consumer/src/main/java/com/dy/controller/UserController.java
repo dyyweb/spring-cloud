@@ -56,7 +56,7 @@ public class UserController {
         return userService.rest(id);
     }
 
-    public User getFallback(@PathVariable("id") long id) {
+    public User getFallback() {
         User vo = new User("【ERROR】Microcloud-Dept-Hystrix",0,new Date()) ;
         return vo ;
     }
