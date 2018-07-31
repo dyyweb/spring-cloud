@@ -7,6 +7,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ import java.util.Date;
  * @since JDK1.8.0_161
  */
 @RestController
+@RefreshScope // 使用该注解的类，会在接到SpringCloud配置中心配置刷新的时候，自动将新的配置更新到该类对应的字段中。
 @EnableAutoConfiguration
 @RequestMapping("user")
 @Slf4j
@@ -65,7 +67,7 @@ public class UserController {
     /**
      * 服务降级处理保持get()参数一致
      *
-     * 还有一种方式，就是接口中指定回调的类和方法(个人感觉降级是由客户端处理的，不应该侵入服务端代码)
+     * 还有一种方式，@FeignClient就是接口中指定回调的类和方法(个人感觉降级是由客户端处理的，不应该侵入服务端代码)
      * 当然还有更高级和深入用法，请参考官网
      * @param name
      * @param age
