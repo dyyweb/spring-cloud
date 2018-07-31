@@ -53,7 +53,7 @@ public class UserController {
     }
 
     /**
-     * 服务降级
+     * 服务降级和熔断
      * @param name
      * @param age
      * @return
@@ -65,7 +65,7 @@ public class UserController {
     }
 
     /**
-     * 服务降级处理保持get()参数一致
+     * 服务降级处理回调方法保持get()参数一致
      *
      * 还有一种方式，@FeignClient就是接口中指定回调的类和方法(个人感觉降级是由客户端处理的，不应该侵入服务端代码)
      * 当然还有更高级和深入用法，请参考官网
@@ -74,6 +74,7 @@ public class UserController {
      * @return
      */
     public User getFallback(String name,Integer age) {
+        //增加Throwable参数,可以获取异常信息
         User vo = new User("后台服务挂了,我已经将其降级处理[Hystrix]",0,new Date()) ;
         return vo ;
     }
