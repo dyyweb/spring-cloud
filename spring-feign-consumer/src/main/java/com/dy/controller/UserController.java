@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.dy.service.UserService;
 import com.dy.domain.User;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -47,11 +48,6 @@ public class UserController {
         return userService.userInfo(user);
     }
 
-    @RequestMapping("get/{id}")
-    User rest(@PathVariable("id") String id) {
-        return userService.rest(id);
-    }
-
     /**
      * 服务降级和熔断
      * @param name
@@ -75,6 +71,31 @@ public class UserController {
      */
     public User getFallback(String name,Integer age) {
         //增加Throwable参数,可以获取异常信息
+        User vo = new User("后台服务挂了,我已经将其降级处理[Hystrix]",0,new Date()) ;
+        return vo ;
+    }
+
+    /**
+     * 限流和资源隔离 , 全局配置请参阅官网||P.174
+     * @param id
+     * @return
+     */
+    @RequestMapping("get/{id}")
+    @HystrixCommand(fallbackMethod = "restFallback",
+            threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "20"),//执行命令线程池的核心线程数，也就是该命令最大并发数
+            @HystrixProperty(name = "maxQueueSize", value = "-1"),//默认-1SynchronousQueue实现的队列,否则使用LinkedBlockingQueue实现的队列
+            @HystrixProperty(name = "queueSizeRejectionThreshold", value = "20")
+            },
+            commandProperties = {
+            @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),//value = THREAD || SEMAPHORE
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")//HystrixCommand执行超时时间
+    })
+    User rest(@PathVariable("id") String id) {
+        return userService.rest(id);
+    }
+
+    private User restFallback(@PathVariable("id") String id) {
         User vo = new User("后台服务挂了,我已经将其降级处理[Hystrix]",0,new Date()) ;
         return vo ;
     }
