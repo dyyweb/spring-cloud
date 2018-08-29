@@ -18,6 +18,7 @@
 		<module>spring-feign-consumer</module>
 		<module>spring-config-server</module>
 		<module>spring-hystrix-dashboard</module>
+		<module>zuul-api-gateway</module>
 	</modules>
 
 	<parent>
