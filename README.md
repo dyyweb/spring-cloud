@@ -22,7 +22,7 @@ Spring Cloud Config 配置管理工具、支持动态刷新、加解密配置内
 
 Spring Cloud Bus：消息总线。
 
-Spring Cloud Sleuth:分布式跟踪实现，可以完美整合Zipkin(分布式监控)。
+Spring Cloud Sleuth:分布式服务跟踪，可以完美整合Zipkin(分布式监控)。
 
 Spring Cloud Stream:消费微服务，流式处理。
 
