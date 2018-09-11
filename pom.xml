@@ -19,6 +19,7 @@
 		<module>spring-config-server</module>
 		<module>spring-hystrix-dashboard</module>
 		<module>zuul-api-gateway</module>
+		<module>spring-sleuth-server</module>
 	</modules>
 
 	<parent>
@@ -74,7 +75,6 @@
 			<id>spring-milestones</id>
 			<url>https://repo.spring.io/milestone</url>
 		</repository>
-
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>

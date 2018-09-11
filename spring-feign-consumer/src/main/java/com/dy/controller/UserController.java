@@ -84,8 +84,8 @@ public class UserController {
     @HystrixCommand(fallbackMethod = "restFallback",
             threadPoolProperties = {
             @HystrixProperty(name = "coreSize", value = "20"),//执行命令线程池的核心线程数，也就是该命令最大并发数
-            @HystrixProperty(name = "maxQueueSize", value = "-1"),//默认-1SynchronousQueue实现的队列,否则使用LinkedBlockingQueue实现的队列
-            @HystrixProperty(name = "queueSizeRejectionThreshold", value = "20")
+            @HystrixProperty(name = "maxQueueSize", value = "-1"),//该参数用来设置线程池的最大队列大小,默认-1SynchronousQueue实现的队列,否则使用LinkedBlockingQueue实现的队列
+            @HystrixProperty(name = "queueSizeRejectionThreshold", value = "20")//该参数用来为队列设置拒绝阈值。通过该参数，即使队列没有达到最大值也能拒绝请求
             },
             commandProperties = {
             @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),//value = THREAD || SEMAPHORE

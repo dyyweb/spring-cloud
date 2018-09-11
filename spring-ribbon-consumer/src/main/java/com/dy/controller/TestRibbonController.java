@@ -23,7 +23,7 @@ public class TestRibbonController {
     @Resource
     private RestTemplate restTemplate;
 
-    @RequestMapping("test")
+    @RequestMapping("info")
     String test() {
         return restTemplate.getForEntity("http://SPRING-BOOT-PROVIDER/provider/info", String.class).getBody();
     }

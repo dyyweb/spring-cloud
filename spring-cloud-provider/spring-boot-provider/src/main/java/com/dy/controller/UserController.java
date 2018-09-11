@@ -22,7 +22,7 @@ public class UserController{
 
     @RequestMapping("info")
     String info() {
-        return "info - Hello World 我是邓洋的spring-boot!";
+        return "info - Hello World 我是邓洋的spring-cloud-provider!";
     }
     @RequestMapping("userInfo")
     String userInfo(User user) {
